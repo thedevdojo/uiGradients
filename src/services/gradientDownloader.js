@@ -9,9 +9,12 @@ toBlob.init();
 export default function (direction, name, ...colors) {
   const canvas = document.createElement('canvas');
 
+  const fixedHeight = 500;
+  const fixedWidth = 500;
+
   canvas.id = 'canva';
-  canvas.width = screen.width; // eslint-disable-line
-  canvas.height = screen.height; // eslint-disable-line
+  canvas.width = fixedWidth; // eslint-disable-line
+  canvas.height = fixedHeight; // eslint-disable-line
   canvas.style.zIndex = 1;
   canvas.style.position = 'absolute';
   document.body.appendChild(canvas);
@@ -26,7 +29,7 @@ export default function (direction, name, ...colors) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   canvas.toBlob((blob) => {
-    saveAs(blob, `${name}.jpg`);
+    saveAs(blob, `${name}.png`);
   });
 
   document.getElementById('canva').remove();
