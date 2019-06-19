@@ -41,6 +41,7 @@
 </template>
 
 <script>
+
 import Preload from './components/Preload';
 import Topbar from './components/Topbar';
 import Actionbar from './components/Actionbar';
@@ -68,9 +69,10 @@ export default {
         colors: ['#ffffff', '#ffffff'],
       },
       gradients: [],
-      showingPalette: false,
+      showingPalette: true,
       showingGradientModal: false,
       showingCodeModal: false,
+      loopCount: 0,
     };
   },
   components: {
@@ -135,11 +137,19 @@ export default {
     },
 
     downloadGradient() {
-      Download(
-        this.currentDirection,
-        this.currentGradient.name,
-        ...this.currentGradient.colors,
-      );
+      setTimeout(() => {
+        if (this.loopCount < this.gradients.length) {
+          this.currentGradient = this.gradients[this.loopCount];
+          Download(
+            this.currentDirection,
+            this.currentGradient.name,
+            ...this.currentGradient.colors,
+          );
+
+          this.loopCount += 1;
+          this.downloadGradient();
+        }
+      }, 2000);
     },
 
     updateFavicon() {
@@ -147,7 +157,7 @@ export default {
     },
 
     fetchGradients() {
-      this.gradients = Gradients.reverse();
+      this.gradients = Gradients;
     },
 
     setCurrentGradient() {

@@ -1,5 +1,6 @@
 import { saveAs } from 'file-saver';
 import toBlob from 'canvas-to-blob';
+import slugify from 'slugify';
 
 import Canvas from './canvasHelpers';
 
@@ -9,8 +10,8 @@ toBlob.init();
 export default function (direction, name, ...colors) {
   const canvas = document.createElement('canvas');
 
-  const fixedHeight = 500;
-  const fixedWidth = 500;
+  const fixedHeight = 1800;
+  const fixedWidth = 1200;
 
   canvas.id = 'canva';
   canvas.width = fixedWidth; // eslint-disable-line
@@ -28,8 +29,10 @@ export default function (direction, name, ...colors) {
   ctx.fillStyle = Canvas.generateFillStyle(grd, ...colors);
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+  const nameSlug = slugify(name);
+
   canvas.toBlob((blob) => {
-    saveAs(blob, `${name}.png`);
+    saveAs(blob, `${nameSlug}-1200x1800.png`);
   });
 
   document.getElementById('canva').remove();
